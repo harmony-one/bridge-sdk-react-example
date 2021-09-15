@@ -38,9 +38,9 @@ const App = () => {
   }, [])
 
   const sendTokens = async () => {
-      const bridgeSDK = new BridgeSDK({ logLevel: 2 }); // 2 - full logs, 1 - only success & errors, 0 - logs off
+      const bridgeSDK = new BridgeSDK({ logLevel: 3 }); // 2 - full logs, 1 - only success & errors, 0 - logs off
 
-      await bridgeSDK.init({ ...configs.testnet, sdk: 'web3' });
+      await bridgeSDK.init({ ...configs.mainnet, sdk: 'web3' });
 
       await bridgeSDK.setUseMetamask(true);
       await bridgeSDK.setUseOneWallet(true);
@@ -69,11 +69,12 @@ const App = () => {
               {
                   type: EXCHANGE_MODE.ONE_TO_ETH,
                   network: NETWORK_TYPE.BINANCE,
-                  token: TOKEN.ONE,
-                  amount: "100",
+                  token: TOKEN.ERC20,
+                  erc20Address: "0x0aB43550A6915F9f67d0c454C2E90385E6497EaA" //bscBUSD //bscADA gets same result
+                  amount: "0.0001",
                   ethAddress: metamaskAddress,
                   oneAddress: metamaskAddress,
-              },
+               },
               id => (operationId = id)
           );
       } catch (e) {
