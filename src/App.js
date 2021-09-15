@@ -40,9 +40,10 @@ const App = () => {
   const sendTokens = async () => {
       const bridgeSDK = new BridgeSDK({ logLevel: 2 }); // 2 - full logs, 1 - only success & errors, 0 - logs off
 
-      await bridgeSDK.init(configs.testnet);
+      await bridgeSDK.init({ ...configs.testnet, sdk: 'web3' });
 
       await bridgeSDK.setUseMetamask(true);
+      await bridgeSDK.setUseOneWallet(true);
 
       let operationId;
 
@@ -66,17 +67,17 @@ const App = () => {
       try {
           await bridgeSDK.sendToken(
               {
-                  type: EXCHANGE_MODE.ETH_TO_ONE,
-                  network: NETWORK_TYPE.ETHEREUM,
-                  token: TOKEN.BUSD,
-                  amount: 2,
+                  type: EXCHANGE_MODE.ONE_TO_ETH,
+                  network: NETWORK_TYPE.BINANCE,
+                  token: TOKEN.ONE,
+                  amount: "100",
                   ethAddress: metamaskAddress,
-                  oneAddress: 'one1we0fmuz9wdncqljwkpgj79k49cp4jrt5hpy49j',
+                  oneAddress: metamaskAddress,
               },
               id => (operationId = id)
           );
       } catch (e) {
-          console.log('Error: ', e.message);
+          console.error(e);
       }
   }
 
